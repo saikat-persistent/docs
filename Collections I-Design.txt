@@ -1,0 +1,331 @@
+Working with Collections
+
+I-Design
+
+Q1.
+Program.cs
+using System;
+using System.Collections.Generic;  
+using System.Linq;  
+class Program  {      
+static void Main(string[] args)      {         
+    Hall h4;          
+   string name,oname;          
+   long ph;          
+         double cost;          
+         List<Hall> h=new List<Hall>();          
+   Hall h1=new Hall("Hardy Marriage Hall",9092314678,200.0,"Hardy");            
+   Hall h2=new Hall("ABC Party Hall",9092310078,120.0,"Ram");
+         Hall h3=new Hall("Conferance Hall",9092314677,400.0,"Ravi");          
+   h.Add(h1);
+         h.Add(h2);          
+   h.Add(h3);          
+  while(true){
+              Console.WriteLine("1.Add New Hall\n2.Display Hall\n3.Replace Hall\n4.Exit");
+              Console.WriteLine("Enter your choice");
+              int ch = Convert.ToInt32(Console.ReadLine());
+              if(ch==1){
+                  Console.WriteLine("Enter Name");
+                  name=Console.ReadLine(); 
+                  Console.WriteLine("Enter phoneNo");
+                  ph=Convert.ToInt64(Console.ReadLine()); 
+                  Console.WriteLine("Enter Cost Per Day"); 
+                  cost=Convert.ToDouble(Console.ReadLine());
+                  Console.WriteLine("Enter Owner Name");
+                  oname=Console.ReadLine();
+                  h4=new Hall(name,ph,cost,oname);
+                  h.Add(h4);
+              }              
+    else if(ch==2){
+                  foreach(Hall o in h){ 
+                     Console.WriteLine(o.ToString()); 
+                  } 
+                }
+              else if(ch==3){
+                Console.WriteLine("Enter the Index position");  
+                int n = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Enter Name");  
+                name=Console.ReadLine();
+                Console.WriteLine("Enter phoneNo");
+                ph=Convert.ToInt64(Console.ReadLine());
+                Console.WriteLine("Enter Cost Per Day");
+                cost=Convert.ToDouble(Console.ReadLine()); 
+                Console.WriteLine("Enter Owner Name");
+                oname=Console.ReadLine();
+                h4=new Hall(name,ph,cost,oname);
+                h.Insert(n,h4);
+              }              
+              else if(ch==4){
+                  break; 
+              }
+              else{  
+                Console.WriteLine("Enter Valid Choice");  
+              }          
+  }
+      }
+  }
+
+Hall.cs
+using System;
+using System.Collections.Generic;
+class Hall  {
+      private string _name;
+      private long _contactNumber;
+      private double _costPerDay;
+      private string _ownerName;
+      public string Name      { 
+        get {   return _name;     }
+        set{              _name = value;    }
+      }
+      public long ContactNumber {
+        get  { return _contactNumber;}
+        set  { _contactNumber = value;}   
+      }      
+      public double CostPerDay      {
+              get{return _costPerDay;} 
+              set{ _costPerDay = value; }
+            }
+            public string OwnerName { 
+                    get{ return _ownerName;}
+                    set{ _ownerName = value;}
+            }    
+            
+        public Hall() { }      
+      
+      public Hall(string _name, long _contactNumber, double _costPerDay, string _ownerName) { 
+                       this._name = _name;    
+                       this._contactNumber = _contactNumber;    
+                       this._costPerDay = _costPerDay;
+                       this._ownerName = _ownerName;  
+       }
+             public override string ToString()      { 
+                     
+                 return String.Format("{0,-30}{1,-15}{2,-15}{3,-15}", this._name, this._contactNumber, this._costPerDay, this._ownerName);     
+              }
+        } 
+
+
+Q2.
+Program.cs
+using System;
+using System.Collections.Generic;  
+class Program
+{
+    static void Main(string[] args)
+    {
+        Console.WriteLine("Enter the number of rows");
+        int rows = Convert.ToInt32(Console.ReadLine());
+        Console.WriteLine("Enter the number of seats per row");
+        int seatsPerRow = Convert.ToInt32(Console.ReadLine());   
+        List<List<Seat>> list = new List<List<Seat>>(); 
+        char c = 'A';
+        for(int i=0;i<rows;i++){     
+             List<Seat> s = new List<Seat>();  
+             for(int j=0;j<seatsPerRow;j++){    
+              s.Add(new Seat(c,j+1,false));          
+         
+             }
+                c++;       
+               list.Add(s);    
+       }       
+    Console.WriteLine("Enter the seats to book");  
+    string seats = Console.ReadLine(); 
+    string[] seatsToBook = seats.Split(',');  
+    foreach(string s in seatsToBook){ 
+        int i = s[1]-'0';         
+         try{                 
+             if(list[Convert.ToInt32(s[0]-'A')][i-1].Booked == false){ 
+                 list[Convert.ToInt32(s[0]-'A')][i-1].Section = '-';        
+                 list[Convert.ToInt32(s[0]-'A')][i-1].Booked = true;  
+             }             
+            }              
+            catch(Exception e){   
+               Console.WriteLine("Invalid seat number {0}",s); 
+            }    
+    }      
+    Console.WriteLine("Booked Seats");  
+    foreach(var sublist in list){        
+      foreach(var seat in sublist){   
+        if(seat.Booked){    
+         Console.Write(seat.Section+" ");    
+        }     
+         else{          
+            Console.Write(seat.Section+""+seat.Number+" ");         
+         }           
+       }              
+       Console.WriteLine();   
+    }                  
+    }
+}
+
+Seat.cs
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+class Seat
+{
+    char _section;
+    int _number;
+    bool _booked;
+
+    public char Section
+    {
+        get { return this._section; }
+        set { this._section = value; }
+    }
+
+    public int Number
+    {
+        get { return this._number; }
+        set { this._number = value; }
+    }
+
+    public bool Booked
+    {
+        get { return this._booked; }
+        set { this._booked = value; }
+    }
+
+    public Seat() { }
+
+    public Seat(char _section, int _number, bool _booked)
+    {
+        this._section = _section;
+        this._number = _number;
+        this._booked = _booked;
+    }
+}
+
+Q3.
+Address.cs
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+class Address
+{
+    private string _addr1;
+    private string _addr2;
+    private string _city;
+    private string _state;
+    private int _pincode;
+    public Address(string addr1, string addr2, string city, string state, int pincode)
+    {
+        this._addr1 = addr1;
+        this._addr2 = addr2;
+        this._city = city;
+        this._state = state;
+        this._pincode = pincode;
+    }
+    public string Addr1
+    {
+        get { return this._addr1; }
+        set { this._addr1 = value; }
+    }
+    public string Addr2
+    {
+        get { return this._addr2; }
+        set { this._addr2 = value; }
+    }
+    public string City
+    {
+        get { return this._city; }
+        set { this._city = value; }
+    }
+    public string State
+    {
+        get { return this._state; }
+        set { this._state = value; }
+     }
+     public int Pincode
+     {
+        get { return this._pincode; }
+        set { this._pincode = value; }
+     }
+     public override string ToString()
+        {
+            return (String.Format("{0,-30} {1,-30} {2,-15} {3,-15} {4,-10}", this._addr1, this._addr2, this._city, this._state, this._pincode));
+        }
+}
+
+Program.cs
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+class Program
+{
+    static void Main(string[] args)
+    {    
+           string str;  
+           Address a;         
+           Dictionary<string, List<Address>> d=new Dictionary<string, List<Address>>();
+           Console.WriteLine("Enter the number of details:");
+          int n = Convert.ToInt32(Console.ReadLine());         
+           Console.WriteLine("Enter the address details:");         
+            for (int i = 0; i < n; i++){
+              //fill your code here 
+             str=Console.ReadLine();     
+             string[] s=str.Split(',');            
+             int x=Convert.ToInt32(s[4]);              
+             a=new Address(s[0],s[1],s[2],s[3],x);              
+             if(d.ContainsKey(s[2])){                 
+                 List<Address> l=d[s[2]];                 
+                 l.Add(a);                
+                 d[s[2]]=l;              
+             }else{                 
+                  List<Address> l=new List<Address>();                
+                  l.Add(a);                  
+                  d.Add(s[2],l);              
+                }          
+            }       
+           Console.WriteLine("Enter the city to view:"); 
+             string city = Console.ReadLine();    
+                   //fill your code here          
+                   if(d.ContainsKey(city)){             
+                        Console.WriteLine("Address Details:");          
+ 			Console.WriteLine("Address1                       Address2                       City            State           Pincode   ");              
+                        List<Address> m=d[city];              
+                        foreach(var t in m){                  
+                            Console.WriteLine(t.ToString());             
+                         }        
+                      }         
+                       else{                 
+     Console.WriteLine("Address Details for the selected city not found...");          
+                        }  
+    }
+}
+
+
+
+
+
+
+Q5.
+Program.cs
+using System;
+using System.Collections.Generic;
+class Program
+    {
+        static void Main(string[] args)
+        {
+                    //Fill Your Code Here 
+                 HashSet < string > h = new HashSet < string >();    
+                 Console.WriteLine("Enter the size of the userlist"); 
+                 int n=Convert.ToInt32(Console.ReadLine()); 
+                 for(int i=0;i<n;i++){       
+                   string str=Console.ReadLine();
+                          if(str!=""){h.Add(str);}
+                 }             
+             Console.WriteLine("Total number of unique users "+h.Count);  
+        }
+}
+
+
